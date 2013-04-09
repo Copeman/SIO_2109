@@ -19,7 +19,15 @@ Exercice_2_2(ph){
 }
 
 Exercice_2_3(list){
-  return list[new Math.Random().nextInt(list.length - 1)];
+  //return list[new Math.Random().nextInt(list.length - 1)];
+  var random = new Math.Random();
+  for (var i = 0; i < list.length; i++) {
+    var n = random.nextInt(list.length);
+    var temp = list[i];
+    list[i] = list[n];
+    list[n] = temp;
+  }
+  return list;
 }
 
 Exercice_2_4_1(list) {

@@ -1,0 +1,5 @@
+name: DoubleSnakes2
+description: A sample web application
+dependencies:
+  game_loop:
+    git: https://github.com/johnmccutchan/game_loop.git

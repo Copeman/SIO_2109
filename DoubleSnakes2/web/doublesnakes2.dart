@@ -4,21 +4,6 @@ import 'dart:math' as Math;
 import 'dart:async';
 import 'package:game_loop/game_loop_html.dart';
 
-/*void main() {
-  query("#sample_text_id")
-    ..text = "Click me!"
-    ..onClick.listen(reverseText);
-}
-
-void reverseText(MouseEvent event) {
-  var text = query("#sample_text_id").text;
-  var buffer = new StringBuffer();
-  for (int i = text.length - 1; i >= 0; i--) {
-    buffer.write(text[i]);
-  }
-  query("#sample_text_id").text = buffer.toString();
-}*/
-
 
 /*
 * HTML5 lightcycles
@@ -127,14 +112,10 @@ class game {
     this.resetCanvas();
     
     
-    new Timer.periodic(new Duration(seconds:1), loop());
-    
-    
-    //var timer = new Timer(const Duration(milliseconds: 100), loop());
+    //new Timer.periodic(new Duration(milliseconds:100), loop());
     //var timer = new Timer.periodic(const Duration(milliseconds: 100), loop());
-    
-    //Timer.run(const Duration(milliseconds: 100), loop());
-    //window.requestAnimationFrame(loop(), 100);
+
+    //window.setInterval(loop(), 100);
     
     
     

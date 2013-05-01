@@ -97,6 +97,7 @@ class game {
     this.context = canvas.context2D;
     start();
     this.over = true;
+    this.resetCanvas();
     new Timer.periodic(new Duration(milliseconds: 100),
         (t) => loop());
   }
@@ -107,6 +108,35 @@ class game {
     this.over = false;
     player['current_direction'] = "left";
     this.resetCanvas();
+    this.addObstacles();
+  }
+  
+  addObstacles(){
+    var obstacle = {
+      'width': 16,
+      'height': 16,
+      'patern': 'rock',
+      'y' : 0,
+      'x' : 0,
+    };
+    var random = new Math.Random();
+    var numObstacle = random.nextInt(6) + 4;
+    var x;
+    var y;
+    var coords;
+    int width = (canvas.width/obstacle['width']).truncate();
+    int height = (canvas.width/obstacle['height']).truncate();
+    
+    for (var i = 0; i < numObstacle; i++) {
+      obstacle['x'] = random.nextInt(width) * obstacle['width'] + 8.0; 
+      obstacle['y'] = random.nextInt(height) * obstacle['height'] +8.0;
+      x = obstacle['x'];
+      y = obstacle['y'];
+      coords = '$x,$y';
+      enemy['history'].add(coords);
+      draw(obstacle);
+    }
+    
   }
   
   stop(cycle) {

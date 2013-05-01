@@ -19,9 +19,9 @@ class game {
 
   var enemy = {
                'type' : 'program',
-               'width' : 8,
-               'height' : 8,
-               'color' : '#92F15F',
+               'width' : 16,
+               'height' : 16,
+               'patern' : 'body2',
                'history' : [],
                'y' : 0,
                'x' : 0,
@@ -30,9 +30,9 @@ class game {
 
   var player = {
                 'type': 'user',
-                'width': 8,
-                'height': 8,
-                'color': '#58BEFF',
+                'width': 16,
+                'height': 16,
+                'patern': 'body',
                 'history': [],
                 'y' : 0,
                 'x' : 0,
@@ -94,13 +94,14 @@ class game {
         start();
       }
     });
+    this.context = canvas.context2D;
     start();
+    this.over = true;
     new Timer.periodic(new Duration(milliseconds: 100),
         (t) => loop());
   }
   
   start() {
-    this.context = canvas.context2D;
     this.resetPlayer();
     this.resetEnemy();
     this.over = false;
@@ -114,10 +115,10 @@ class game {
     var height2 = (canvas.height / 15);
     context.font = '$height2' + 'px sans-serif';
     context.textAlign = 'center';
-    var winner = cycle['type'] == 'program' ? 'USER' : 'PROGRAM';
-    context.fillText('GAME OVER - ' + winner + ' WINS', canvas.width/2, canvas.height/2);
-    context.fillText('press spacebar to contine', canvas.width/2, canvas.height/2 + (cycle['height'] * 3));
-    cycle['color'] = "#F00";
+    var winner = cycle['type'] == 'program' ? 'gagné' : 'perdu';
+    context.fillText('Partie terminée - Vous avez ' + winner, canvas.width/2, canvas.height/2);
+    context.fillText('Appuyez sur espace pour continuer.', canvas.width/2, canvas.height/2 + (cycle['height'] * 3));
+    cycle['patern'] = "body3";
   }
   
   newLevel() {
@@ -132,17 +133,17 @@ class game {
   
   
   resetPlayer() {
-    player['x'] = canvas.width - (canvas.width / (player['width'] / 2) + 4);
+    player['x'] = canvas.width - (canvas.width / (player['width'] / 2) + 8);
     player['y'] = (canvas.height / 2) + (player['height'] / 2);
-    player['color'] = '#58BEFF';
+    player['patern'] = 'body';
     player['history'] = [];
     player['current_direction'] = "left";
   }
   
   resetEnemy() {
-    enemy['x'] = (canvas.width / (enemy['width'] / 2) - 4);
+    enemy['x'] = (canvas.width / (enemy['width'] / 2) - 8);
     enemy['y'] = (canvas.height / 2) + (enemy['height'] / 2);
-    enemy['color'] = '#92F15F';
+    enemy['patern'] = 'body2';
     enemy['history'] = [];
     enemy['current_direction'] = "right";
   }
@@ -251,7 +252,10 @@ class game {
   }
   
   draw(cycle) {
-    context.fillStyle = cycle['color'];
+    var img = document.getElementById(cycle['patern']);
+    var patern=context.createPattern(img,'repeat');
+    
+    context.fillStyle = patern;
     context.beginPath();
     context.moveTo(cycle['x'] - (cycle['width'] / 2), cycle['y'] - (cycle['height'] / 2));
     context.lineTo(cycle['x'] + (cycle['width'] / 2), cycle['y'] - (cycle['height'] / 2));

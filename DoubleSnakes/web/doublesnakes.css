@@ -41,6 +41,13 @@ h1, p {
   }
   canvas {
     display: block;
+    margin: 0px auto;
+    background: url('grass.png');
+  }
+  #contour {
+    background: url('tree.png');
     margin: 10px auto;
-    background-color: #666;
+    width: 640px;
+    height: 480px;
+    padding: 32px;
   }

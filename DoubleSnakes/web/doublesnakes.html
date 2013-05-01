@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8" />
-  <title>Double snakes</title>
+  <title>Le combat des reptiles</title>
   <link rel="stylesheet" href="doublesnakes.css">
 </head>
 <body>
-  <h1>Double snakes</h1>
-  <p>Use WASD or arrow keys control cycle.</p>
-  <p>Click inside canvas to play game.</p>
-  <canvas id="the-game" width="320" height="240">
-  <script src="packages/browser/dart.js"></script>
-  <script type="application/dart" src="doublesnakes.dart"></script>
+  <h1>Le combat des reptiles</h1>
+  <p>Utilisez les touches WASD ou les flèches du clavier pour contrôler votre serpent.</p>
+  <p>Appuyez sur espace pour débuter la partie.</p>
+  <div id="contour">
+    <canvas id="the-game" width="640" height="480">
+    <script src="packages/browser/dart.js"></script>
+    <script type="application/dart" src="doublesnakes.dart"></script>
+    <img src="body.png" style="display:none" id="body" width="32" height="32" />
+    <img src="body2.png" style="display:none" id="body2" width="32" height="32" />
+    <img src="body3.png" style="display:none" id="body3" width="32" height="32" />
+  </div>
 </body>
 </html>

@@ -3279,7 +3279,7 @@ $$.convertDartToNative_Dictionary_anon = {"": "Closure;object_0",
 $$.game = {"": "Object;canvas>,context<,enemy<,player<,keys,lastKey,over@",
   falsestart$0: function() {
     var t1, t2, milliseconds;
-    $.get$onKeyUp$x(document).listen$1(new $.game_falsestart_anon(this));
+    $.get$onKeyDown$x(document).listen$1(new $.game_falsestart_anon(this));
     t1 = this.canvas;
     this.context = $.get$context2D$x(t1);
     this.resetPlayer$0();
@@ -4014,8 +4014,8 @@ $$.Document = {"": "Node;",
       return receiver.webkitRegister($name, $.convertDartToNative_Dictionary(options));
     return receiver.webkitRegister($name);
   },
-  get$onKeyUp: function(receiver) {
-    return $.EventStreamProvider_keyup.forTarget$1(receiver);
+  get$onKeyDown: function(receiver) {
+    return $.EventStreamProvider_keydown.forTarget$1(receiver);
   }
 };
 
@@ -6002,7 +6002,7 @@ Isolate.makeConstantList = function(list) {
   return list;
 };
 $.List_empty = Isolate.makeConstantList([]);
-$.EventStreamProvider_keyup = new $.EventStreamProvider("keyup");
+$.EventStreamProvider_keydown = new $.EventStreamProvider("keydown");
 $.JSInt_methods = $.JSInt.prototype;
 $.JSNull_methods = $.JSNull.prototype;
 $.JSNumber_methods = $.JSNumber.prototype;
@@ -6118,8 +6118,8 @@ $.get$iterator$ax = function(receiver) {
 $.get$length$asx = function(receiver) {
   return $.getInterceptor$asx(receiver).get$length(receiver);
 };
-$.get$onKeyUp$x = function(receiver) {
-  return $.getInterceptor$x(receiver).get$onKeyUp(receiver);
+$.get$onKeyDown$x = function(receiver) {
+  return $.getInterceptor$x(receiver).get$onKeyDown(receiver);
 };
 $.indexOf$1$asx = function(receiver, a0) {
   return $.getInterceptor$asx(receiver).indexOf$1(receiver, a0);
@@ -6865,4 +6865,4 @@ function init() {
     return newIsolate;
   };
 }
-//@ sourceMappingURL=doublesnakes.dart.js.map
+//@ sourceMappingURL=le_combat_des_reptiles.dart.js.map

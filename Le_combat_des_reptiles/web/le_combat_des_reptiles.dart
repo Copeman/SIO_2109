@@ -54,7 +54,7 @@ class game {
   
   
   falsestart(){
-    document.onKeyUp.listen((e) {
+    document.onKeyDown.listen((e) {
       var lastKey = e.keyCode;
       switch(e.keyCode) {
         case 38:

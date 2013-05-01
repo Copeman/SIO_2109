@@ -42,10 +42,10 @@ h1, p {
   canvas {
     display: block;
     margin: 0px auto;
-    background: url('grass.png');
+    background: url('images/grass.png');
   }
   #contour {
-    background: url('tree.png');
+    background: url('images/tree.png');
     margin: 10px auto;
     width: 640px;
     height: 480px;

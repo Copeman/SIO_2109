@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+  <title>Le combat des reptiles</title>
+  <link rel="stylesheet" href="le_combat_des_reptiles.css">
+</head>
+<body>
+  <h1>Le combat des reptiles</h1>
+  <p>Utilisez les touches WASD ou les flèches du clavier pour contrôler le serpent bleu.</p>
+  <p>Appuyez sur espace pour débuter la partie.</p>
+  <div id="contour">
+    <canvas id="the-game" width="640" height="480">
+    <script src="packages/browser/dart.js"></script>
+    <script type="application/dart" src="le_combat_des_reptiles.dart"></script>
+    <img src="images/body.png" style="display:none" id="body" width="32" height="32" />
+    <img src="images/body2.png" style="display:none" id="body2" width="32" height="32" />
+    <img src="images/body3.png" style="display:none" id="body3" width="32" height="32" />
+    <img src="images/rock.png" style="display:none" id="rock" width="32" height="32" />
+  </div>
+</body>
+</html>

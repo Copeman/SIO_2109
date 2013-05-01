@@ -1552,6 +1552,8 @@ $$.JSNumber = {"": "Interceptor;",
     return receiver - other;
   },
   $div: function(receiver, other) {
+    if (typeof other !== "number")
+      throw $.wrapException($.ArgumentError$(other));
     return receiver / other;
   },
   $mul: function(receiver, other) {
@@ -1678,6 +1680,13 @@ $$.JSString = {"": "Interceptor;",
 };
 
 $$._Random = {"": "Object;",
+  nextInt$1: function(max) {
+    if (max < 0)
+      throw $.wrapException($.ArgumentError$("negative max: " + $.S(max)));
+    if (max > 4294967295)
+      max = 4294967295;
+    return Math.random() * max >>> 0;
+  },
   nextDouble$0: function() {
     return Math.random();
   }
@@ -3280,13 +3289,41 @@ $$.game = {"": "Object;canvas>,context<,enemy<,player<,keys,lastKey,over@",
     t2.$indexSet(t2, "current_direction", "left");
     t2 = $.getInterceptor$x(t1);
     this.context.clearRect(0, 0, t2.get$width(t1), t2.get$height(t1));
+    this.addObstacles$0();
     this.over = true;
+    this.context.clearRect(0, 0, t2.get$width(t1), t2.get$height(t1));
     t1 = $.Duration$(0, 0, 0, 100, 0, 0);
     t2 = new $.game_falsestart_anon0(this);
     milliseconds = t1.get$inMilliseconds();
     if (milliseconds < 0)
       milliseconds = 0;
     $.TimerImpl$periodic(milliseconds, t2);
+  },
+  addObstacles$0: function() {
+    var obstacle, numObstacle, t1, t2, width, height, i, t3, x, y, coords;
+    obstacle = $.makeLiteralMap(["width", 16, "height", 16, "patern", "rock", "y", 0, "x", 0]);
+    numObstacle = $.C__Random.nextInt$1(6) + 4;
+    t1 = this.canvas;
+    t2 = $.getInterceptor$x(t1);
+    width = $.JSNumber_methods.truncate$0($.$div$n(t2.get$width(t1), obstacle.$index(obstacle, "width")));
+    height = $.JSNumber_methods.truncate$0($.$div$n(t2.get$width(t1), obstacle.$index(obstacle, "height")));
+    for (t1 = this.enemy, i = 0; i < numObstacle; ++i) {
+      t2 = $.C__Random.nextInt$1(width);
+      t3 = obstacle.$index(obstacle, "width");
+      if (typeof t3 !== "number")
+        throw $.iae(t3);
+      obstacle.$indexSet(obstacle, "x", t2 * t3 + 8);
+      t3 = $.C__Random.nextInt$1(height);
+      t2 = obstacle.$index(obstacle, "height");
+      if (typeof t2 !== "number")
+        throw $.iae(t2);
+      obstacle.$indexSet(obstacle, "y", t3 * t2 + 8);
+      x = obstacle.$index(obstacle, "x");
+      y = obstacle.$index(obstacle, "y");
+      coords = $.S(x) + "," + $.S(y);
+      $.add$1$ax(t1.$index(t1, "history"), coords);
+      this.draw$1(obstacle);
+    }
   },
   stop$1: function(_, cycle) {
     var t1, t2, height2, winner, t3, t4;
@@ -3657,17 +3694,145 @@ $$.game = {"": "Object;canvas>,context<,enemy<,player<,keys,lastKey,over@",
     }
   },
   draw$1: function(cycle) {
-    var img, patern;
+    var img, patern, t1, t2, t3, t4;
     img = document.getElementById(cycle.$index(cycle, "patern"));
     patern = this.context.createPattern(img, "repeat");
     this.context.fillStyle = patern;
     this.context.beginPath();
-    this.context.moveTo($.$sub$n(cycle.$index(cycle, "x"), $.$div$n(cycle.$index(cycle, "width"), 2)), $.$sub$n(cycle.$index(cycle, "y"), $.$div$n(cycle.$index(cycle, "height"), 2)));
-    this.context.lineTo($.$add$ns(cycle.$index(cycle, "x"), $.$div$n(cycle.$index(cycle, "width"), 2)), $.$sub$n(cycle.$index(cycle, "y"), $.$div$n(cycle.$index(cycle, "height"), 2)));
-    this.context.lineTo($.$add$ns(cycle.$index(cycle, "x"), $.$div$n(cycle.$index(cycle, "width"), 2)), $.$add$ns(cycle.$index(cycle, "y"), $.$div$n(cycle.$index(cycle, "height"), 2)));
-    this.context.lineTo($.$sub$n(cycle.$index(cycle, "x"), $.$div$n(cycle.$index(cycle, "width"), 2)), $.$add$ns(cycle.$index(cycle, "y"), $.$div$n(cycle.$index(cycle, "height"), 2)));
+    t1 = this.context;
+    t2 = cycle.$index(cycle, "x");
+    if (typeof t2 !== "number")
+      return this.draw$1$bailout(1, cycle, t1, t2);
+    t3 = cycle.$index(cycle, "width");
+    if (typeof t3 !== "number")
+      return this.draw$1$bailout(2, cycle, t1, t2, t3);
+    t3 = t2 - t3 / 2;
+    t2 = cycle.$index(cycle, "y");
+    if (typeof t2 !== "number")
+      return this.draw$1$bailout(3, cycle, t1, t2, t3);
+    t4 = cycle.$index(cycle, "height");
+    if (typeof t4 !== "number")
+      return this.draw$1$bailout(4, cycle, t1, t2, t3, t4);
+    t1.moveTo(t3, t2 - t4 / 2);
+    t4 = this.context;
+    t2 = cycle.$index(cycle, "x");
+    if (typeof t2 !== "number")
+      return this.draw$1$bailout(5, cycle, 0, t2, 0, t4);
+    t3 = cycle.$index(cycle, "width");
+    if (typeof t3 !== "number")
+      return this.draw$1$bailout(6, cycle, 0, t2, t3, t4);
+    t3 = t2 + t3 / 2;
+    t2 = cycle.$index(cycle, "y");
+    if (typeof t2 !== "number")
+      return this.draw$1$bailout(7, cycle, 0, t2, t3, t4);
+    t1 = cycle.$index(cycle, "height");
+    if (typeof t1 !== "number")
+      return this.draw$1$bailout(8, cycle, t1, t2, t3, t4);
+    t4.lineTo(t3, t2 - t1 / 2);
+    t1 = this.context;
+    t2 = cycle.$index(cycle, "x");
+    if (typeof t2 !== "number")
+      return this.draw$1$bailout(9, cycle, t1, t2);
+    t3 = cycle.$index(cycle, "width");
+    if (typeof t3 !== "number")
+      return this.draw$1$bailout(10, cycle, t1, t2, t3);
+    t3 = t2 + t3 / 2;
+    t2 = cycle.$index(cycle, "y");
+    if (typeof t2 !== "number")
+      return this.draw$1$bailout(11, cycle, t1, t2, t3);
+    t4 = cycle.$index(cycle, "height");
+    if (typeof t4 !== "number")
+      return this.draw$1$bailout(12, cycle, t1, t2, t3, t4);
+    t1.lineTo(t3, t2 + t4 / 2);
+    t4 = this.context;
+    t2 = cycle.$index(cycle, "x");
+    if (typeof t2 !== "number")
+      return this.draw$1$bailout(13, cycle, 0, t2, 0, t4);
+    t3 = cycle.$index(cycle, "width");
+    if (typeof t3 !== "number")
+      return this.draw$1$bailout(14, cycle, 0, t2, t3, t4);
+    t3 = t2 - t3 / 2;
+    t2 = cycle.$index(cycle, "y");
+    if (typeof t2 !== "number")
+      return this.draw$1$bailout(15, cycle, 0, t2, t3, t4);
+    t1 = cycle.$index(cycle, "height");
+    if (typeof t1 !== "number")
+      return this.draw$1$bailout(16, 0, t1, t2, t3, t4);
+    t4.lineTo(t3, t2 + t1 / 2);
     this.context.closePath();
     this.context.fill();
+  },
+  draw$1$bailout: function(state0, cycle, t1, t2, t3, t4) {
+    switch (state0) {
+      case 0:
+        img = document.getElementById(cycle.$index(cycle, "patern"));
+        patern = this.context.createPattern(img, "repeat");
+        this.context.fillStyle = patern;
+        this.context.beginPath();
+        t1 = this.context;
+        t2 = cycle.$index(cycle, "x");
+      case 1:
+        state0 = 0;
+        t3 = cycle.$index(cycle, "width");
+      case 2:
+        state0 = 0;
+        t3 = $.$sub$n(t2, $.$div$n(t3, 2));
+        t2 = cycle.$index(cycle, "y");
+      case 3:
+        state0 = 0;
+        t4 = cycle.$index(cycle, "height");
+      case 4:
+        state0 = 0;
+        t1.moveTo(t3, $.$sub$n(t2, $.$div$n(t4, 2)));
+        t4 = this.context;
+        t2 = cycle.$index(cycle, "x");
+      case 5:
+        state0 = 0;
+        t3 = cycle.$index(cycle, "width");
+      case 6:
+        state0 = 0;
+        t3 = $.$add$ns(t2, $.$div$n(t3, 2));
+        t2 = cycle.$index(cycle, "y");
+      case 7:
+        state0 = 0;
+        t1 = cycle.$index(cycle, "height");
+      case 8:
+        state0 = 0;
+        t4.lineTo(t3, $.$sub$n(t2, $.$div$n(t1, 2)));
+        t1 = this.context;
+        t2 = cycle.$index(cycle, "x");
+      case 9:
+        state0 = 0;
+        t3 = cycle.$index(cycle, "width");
+      case 10:
+        state0 = 0;
+        t3 = $.$add$ns(t2, $.$div$n(t3, 2));
+        t2 = cycle.$index(cycle, "y");
+      case 11:
+        state0 = 0;
+        t4 = cycle.$index(cycle, "height");
+      case 12:
+        state0 = 0;
+        t1.lineTo(t3, $.$add$ns(t2, $.$div$n(t4, 2)));
+        t4 = this.context;
+        t2 = cycle.$index(cycle, "x");
+      case 13:
+        state0 = 0;
+        t3 = cycle.$index(cycle, "width");
+      case 14:
+        state0 = 0;
+        t3 = $.$sub$n(t2, $.$div$n(t3, 2));
+        t2 = cycle.$index(cycle, "y");
+      case 15:
+        state0 = 0;
+        t1 = cycle.$index(cycle, "height");
+      case 16:
+        var img, patern;
+        state0 = 0;
+        t4.lineTo(t3, $.$add$ns(t2, $.$div$n(t1, 2)));
+        this.context.closePath();
+        this.context.fill();
+    }
   },
   inverseDirection$0: function() {
     var t1 = this.player;
@@ -3686,7 +3851,7 @@ $$.game = {"": "Object;canvas>,context<,enemy<,player<,keys,lastKey,over@",
 
 $$.game_falsestart_anon = {"": "Closure;this_0",
   call$1: function(e) {
-    var t1, lastKey, t2, t3;
+    var t1, lastKey, t2, t3, t4;
     t1 = $.getInterceptor$x(e);
     lastKey = t1.get$keyCode(e);
     switch (t1.get$keyCode(e)) {
@@ -3732,9 +3897,10 @@ $$.game_falsestart_anon = {"": "Closure;this_0",
       t2 = t1.get$player();
       t2.$indexSet(t2, "current_direction", "left");
       t2 = t1.get$context();
-      t1 = $.get$canvas$x(t1);
-      t3 = $.getInterceptor$x(t1);
-      t2.clearRect(0, 0, t3.get$width(t1), t3.get$height(t1));
+      t3 = $.get$canvas$x(t1);
+      t4 = $.getInterceptor$x(t3);
+      t2.clearRect(0, 0, t4.get$width(t3), t4.get$height(t3));
+      t1.addObstacles$0();
     }
   }
 };
